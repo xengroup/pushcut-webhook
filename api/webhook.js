@@ -12,6 +12,7 @@ export default async function handler(req, res) {
   const pushcutUrl = process.env.PUSHCUT_URL;
 
   const payload = {
+    title: 'Depósito Aprovado',
     text: `Sua comissão R$${amount}`
   };
 
