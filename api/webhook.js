@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   const payload = {
     input: {
-      valor: amount.toString()
+      valor: `R$${amount}`
     }
   };
 
