@@ -9,20 +9,14 @@ export default async function handler(req, res) {
     return res.status(200).json({ ignored: true });
   }
 
-  const pushcutUrl = process.env.PUSHCUT_URL;
+  // Monta o input como JSON codificado na URL
+  const input = encodeURIComponent(JSON.stringify({ valor: amount }));
 
-  const payload = {
-    title: 'Depósito Aprovado',
-    text: `Sua comissão R$${amount}`
-  };
+  // Usa o endpoint correto da automação
+  const pushcutUrl = `https://api.pushcut.io/sgLouSR6GpgRK2l7EA1OQ/automation/deposito-feito?input=${input}`;
 
   try {
-    const response = await fetch(pushcutUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
+    const response = await fetch(pushcutUrl);
     const data = await response.text();
     return res.status(200).json({ success: true, response: data });
   } catch (error) {
