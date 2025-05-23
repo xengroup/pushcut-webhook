@@ -11,14 +11,17 @@ export default async function handler(req, res) {
 
   const pushcutUrl = process.env.PUSHCUT_URL;
 
-  const urlEncodedPayload = encodeURIComponent(JSON.stringify({
-    valor: `R$${amount}`
-  }));
-
-  const url = `${pushcutUrl}?input=${urlEncodedPayload}`;
+  const payload = {
+    text: `Sua comissão R$${amount}`
+  };
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(pushcutUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
     const data = await response.text();
     return res.status(200).json({ success: true, response: data });
   } catch (error) {
